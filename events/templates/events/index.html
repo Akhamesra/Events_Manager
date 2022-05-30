@@ -1,0 +1,29 @@
+{% extends 'events/base/base.html' %}
+
+{% load static %}
+
+{% block title %}All Events{% endblock %}
+
+{% block site_css %}
+  <link rel="stylesheet" href="{% static 'events/styles/all-events.css' %}">
+{% endblock %}
+   
+{% block main_heading %}
+We got great events coming up!
+{% endblock %}
+
+{% block header_content %}
+<p>Find the one that best suits your needs!</p>
+{% endblock %}
+
+{% block body %}
+<section>
+  <h2>Upcoming Events</h2>
+  <ol>
+    {% for event_item in events %}
+      {% include 'events/includes/event-item.html' with title=event_item.title image=event_item.image.url location=event_item.location slug=event_item.slug %}
+    {% endfor %}
+  </ol>
+</section>
+{% endblock %}
+   

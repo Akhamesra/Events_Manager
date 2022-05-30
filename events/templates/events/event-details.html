@@ -1,0 +1,54 @@
+{% extends 'events/base/base.html' %}
+
+{% load static %}
+
+{% block title %}
+  {{ event.title }}
+{% endblock %}
+
+{% block site_css %}
+  <link rel="stylesheet" href="{% static 'events/styles/event-detail.css' %}">
+{% endblock %}
+
+{% block main_heading %}
+  {{ event.title }}
+{% endblock %}
+
+{% block body %}
+
+{% if event_found %}
+<article>
+  <img id="main-image" src="{{ event.image.url }}" alt="{{ event.title }}">
+
+  <section id="location">
+    <h2>Event Location</h2>
+    <address>This event takes place in <span>{{ event.location.name }}</span> ({{ event.location.address }}).</address>
+  </section>
+
+  <section id="details">
+    <h2>What's This Event About?</h2>
+    <p>{{ event.description }}</p>
+    <footer>
+      <p>Need more details? Please <a href="mailto:{{ event.organizer_email }}">contact the organizer</a> (but don't spam us ;-)).</p>
+    </footer>
+  </section>
+
+  <section id="registration">
+    <h2>Join Us!</h2>
+    <form action="{% url 'event-detail' event.slug %}" method="POST">
+      {% csrf_token %}
+      <ul>
+        {{ form.as_ul }}
+      </ul>
+      <div id="registration-actions">
+        <button>Register</button>
+      </div>
+    </form>
+  </section>
+</article>
+{% else %}
+<p>No event found for this slug, sorry!</p>
+{% endif %}
+
+{% endblock %}
+    
